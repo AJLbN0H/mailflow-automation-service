@@ -1,0 +1,41 @@
+{% extends 'mailings_message/base.html' %}
+
+{% block tittle %}
+<div class="col-lg-6 col-md-8 mx-auto"><h1 class="fw-light">Страница писем</h1>
+    <p class="lead text-body-secondary">Здесь располагаются ваши письма</p>
+    <p><a href="{% url 'mailings:message_create' %}" class="btn btn-primary my-2">Добавить новое письмо</a></p>
+{% endblock %}
+
+{% block content %}
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3"> {% for message in messages %}
+            <div class="col">
+                <div class="card shadow-sm">
+                    <div class="card-body"><p class="card-text h5" style="text-align: center">{{ message.topic }}</p>
+                        <p class="card-text">Текст письма: {{ message.content|truncatechars:100 }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            {% if user == mailing_recipient.owner or perms.mailings.can_view_mailing_recipient %}
+                            <div class="btn-group"><a class="btn btn-primary"
+                                                      href="{% url 'mailings:message_detail' message.pk %}"
+                                                      role="button">Посмотреть</a>
+                                {% endif %}
+                            {% if user == mailing_recipient.owner %}
+                            <a class="btn btn-primary"
+                                                      href="{% url 'mailings:message_update' message.pk %}"
+                                                      role="button">Редактировать</a>
+                            <div class="btn-group"><a class="btn btn-primary"
+                                                      href="{% url 'mailings:message_delete' message.pk %}"
+                                                      role="button">Удалить</a></div>
+                            {% endif %}
+                            </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+    </div>
+{% endblock %}

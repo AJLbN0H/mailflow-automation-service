@@ -1,0 +1,27 @@
+{% extends 'mailings_message/base.html' %}
+
+{% block tittle %}
+<div class="col-lg-6 col-md-8 mx-auto"><h1 class="fw-light">Статистика</h1>
+    <p class="lead text-body-secondary">Информационная страница рассылок и получателей</p>
+{% endblock %}
+
+{% block content %}
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">{% for info in information %}
+            {% if user == info.newsletter.owner %}
+            <div class="col">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <p class="card-text h5" style="text-align: center">{{ info.status }}</p>
+                        <p class="card-text">Дата и время попытки: {{ info.date_of_attempt }}</p>
+                        <p class="card-text">Ответ почтового сервера: {{ info.mail_server_response }}</p>
+                        <p class="card-text">Рассылка: {{ info.newsletter }}</p>
+                    </div>
+                </div>
+            </div>{% endif %}{% endfor %}
+        </div>
+    </div>
+</div>
+    </div>
+{% endblock %}
