@@ -1,0 +1,25 @@
+{% extends 'mailings_message/base.html' %}
+
+{% block tittle %}
+<div class="col-lg-6 col-md-8 mx-auto"><h1 class="fw-light">Подробная информация о рассылке</h1></div>
+{% endblock %}
+
+{% block content %}
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <div class="col">
+                <div class="card shadow-sm">
+                    <p class="card-text h5" style="text-align: center">{{ newsletter.status }}</p>
+                    <p class="card-text">Дата и время первой отправки: {{ newsletter.sending_date|date:"Y-M-d H:i:s" }}</p>
+                    <p class="card-text">Дата и время окончания отправки: {{ newsletter.end_date_of_send|date:"Y-M-d H:i:s" }}</p>
+                    <p class="card-text">Текст письма: {{ newsletter.message }}</p>
+                    <p>Получатели рассылок:</p>
+                    {% for newsletter_ in newsletter.recipients.all %}
+                    <p class="card-text">{{ newsletter_.email }}</p>
+                    {% endfor %}
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>  {% endblock %}

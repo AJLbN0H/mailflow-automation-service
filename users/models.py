@@ -4,6 +4,13 @@ from django.db import models
 
 class User(AbstractUser):
 
+    username = models.CharField(
+        max_length=100,
+        verbose_name="Имя",
+        blank=True,
+        unique=False,
+        default="not_username",
+    )
     email = models.EmailField(unique=True, verbose_name="Email")
     avatar = models.ImageField(
         upload_to="users/",
@@ -20,15 +27,27 @@ class User(AbstractUser):
         help_text="Введите номер телефона",
     )
     country = models.CharField(
-        max_length=50, blank=True, null=True, help_text="Введите страну проживания"
+        max_length=50,
+        verbose_name="Страна",
+        blank=True,
+        null=True,
+        help_text="Введите страну проживания",
+    )
+
+    is_active = models.BooleanField(
+        verbose_name="Аккаунт пользователя активен",
+        help_text="Если хотите заблокировать его то уберить галочку",
     )
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ["username"]
 
     class Meta:
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
+        permissions = [
+            ("can_deactivation_user", "Can deactivation user"),
+        ]
 
     def __str__(self):
         return self.email
