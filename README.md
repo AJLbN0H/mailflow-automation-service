@@ -37,11 +37,7 @@ MailFlow — это полнофункциональный бэкенд-серв
 1. Клонирование:
    ```git clone https://github.com/AJLbN0H/mailflow-automation-service.git```
 
-2. Конфигурация:
-   Заполните .env файл:
-   EMAIL_HOST_USER=ваша_почта
-   EMAIL_HOST_PASSWORD=пароль_приложения
-   CACHE_LOCATION=redis://127.0.0.1:6379
+2. Конфигурация: Заполните .env файл (.env.example)
 
 3. Запуск через Poetry:
    ```poetry install```
