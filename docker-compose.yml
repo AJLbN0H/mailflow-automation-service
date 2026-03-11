@@ -24,7 +24,7 @@ services:
     environment:
       - SECRET_KEY=django-insecure-key-for-github
       - DEBUG=True
-      - host=db
+      - HOST=db
       - NAME=postgres
       - USER=postgres
       - PASSWORD=postgres
