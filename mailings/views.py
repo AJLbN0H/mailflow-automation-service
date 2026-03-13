@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.cache import cache
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -20,7 +21,7 @@ from mailings.models import Message, MailingRecipient, Newsletter, AttemptToSend
 from mailings.services import NewsletterService
 
 
-class MessageListView(ListView):
+class MessageListView(LoginRequiredMixin, ListView):
     model = Message
     context_object_name = "messages"
     template_name = "mailings_message/message_list.html"
@@ -33,13 +34,13 @@ class MessageListView(ListView):
 
 
 @method_decorator(cache_page(60 * 15), name="dispatch")
-class MessageDetailView(DetailView):
+class MessageDetailView(LoginRequiredMixin, DetailView):
     model = Message
     context_object_name = "message"
     template_name = "mailings_message/message_detail.html"
 
 
-class MessageCreateView(CreateView):
+class MessageCreateView(LoginRequiredMixin, CreateView):
     model = Message
     form_class = MessageForm
     success_url = reverse_lazy("mailings:message_list")
@@ -50,20 +51,20 @@ class MessageCreateView(CreateView):
         return super().form_valid(form)
 
 
-class MessageUpdateView(UpdateView):
+class MessageUpdateView(LoginRequiredMixin, UpdateView):
     model = Message
     form_class = MessageForm
     success_url = reverse_lazy("mailings:message_list")
     template_name = "mailings_message/message_update.html"
 
 
-class MessageDeleteView(DeleteView):
+class MessageDeleteView(LoginRequiredMixin, DeleteView):
     model = Message
     success_url = reverse_lazy("mailings:message_list")
     template_name = "mailings_message/message_delete.html"
 
 
-class MailingRecipientListView(ListView):
+class MailingRecipientListView(LoginRequiredMixin, ListView):
     model = MailingRecipient
     context_object_name = "mailing_recipients"
     template_name = "mailings_mailing_recipient/mailing_recipient_list.html"
@@ -76,13 +77,13 @@ class MailingRecipientListView(ListView):
 
 
 @method_decorator(cache_page(60 * 15), name="dispatch")
-class MailingRecipientDetailView(DetailView):
+class MailingRecipientDetailView(LoginRequiredMixin, DetailView):
     model = MailingRecipient
     context_object_name = "mailing_recipient"
     template_name = "mailings_mailing_recipient/mailing_recipient_detail.html"
 
 
-class MailingRecipientCreateView(CreateView):
+class MailingRecipientCreateView(LoginRequiredMixin, CreateView):
     model = MailingRecipient
     form_class = MailingRecipientForm
     success_url = reverse_lazy("mailings:mailing_recipient_list")
@@ -93,20 +94,20 @@ class MailingRecipientCreateView(CreateView):
         return super().form_valid(form)
 
 
-class MailingRecipientUpdateView(UpdateView):
+class MailingRecipientUpdateView(LoginRequiredMixin, UpdateView):
     model = MailingRecipient
     form_class = MailingRecipientForm
     success_url = reverse_lazy("mailings:mailing_recipient_list")
     template_name = "mailings_mailing_recipient/mailing_recipient_update.html"
 
 
-class MailingRecipientDeleteView(DeleteView):
+class MailingRecipientDeleteView(LoginRequiredMixin, DeleteView):
     model = MailingRecipient
     success_url = reverse_lazy("mailings:mailing_recipient_list")
     template_name = "mailings_mailing_recipient/mailing_recipient_delete.html"
 
 
-class NewsletterListView(ListView):
+class NewsletterListView(LoginRequiredMixin, ListView):
     model = Newsletter
     context_object_name = "newsletters"
     template_name = "mailings_newsletter/newsletter_list.html"
@@ -125,13 +126,13 @@ class NewsletterListView(ListView):
 
 
 @method_decorator(cache_page(60 * 15), name="dispatch")
-class NewsletterDetailView(DetailView):
+class NewsletterDetailView(LoginRequiredMixin, DetailView):
     model = Newsletter
     context_object_name = "newsletter"
     template_name = "mailings_newsletter/newsletter_detail.html"
 
 
-class NewsletterCreateView(CreateView):
+class NewsletterCreateView(LoginRequiredMixin, CreateView):
     model = Newsletter
     form_class = NewsletterForm
     success_url = reverse_lazy("mailings:newsletter_list")
@@ -143,14 +144,14 @@ class NewsletterCreateView(CreateView):
         return super().form_valid(form)
 
 
-class NewsletterUpdateView(UpdateView):
+class NewsletterUpdateView(LoginRequiredMixin, UpdateView):
     model = Newsletter
     form_class = NewsletterForm
     success_url = reverse_lazy("mailings:newsletter_list")
     template_name = "mailings_newsletter/newsletter_update.html"
 
 
-class NewsletterDeleteView(DeleteView):
+class NewsletterDeleteView(LoginRequiredMixin, DeleteView):
     model = Newsletter
     success_url = reverse_lazy("mailings:newsletter_list")
     template_name = "mailings_newsletter/newsletter_delete.html"
@@ -182,7 +183,7 @@ class HomePageListView(ListView):
             cache.set("home_page_list_view", queryset, 60 * 15)
 
 
-class AttemptToSendListView(ListView):
+class AttemptToSendListView(LoginRequiredMixin, ListView):
     model = AttemptToSend
     template_name = "mailings_message/attempt_to_send.html"
     context_object_name = "information"
@@ -194,7 +195,7 @@ class AttemptToSendListView(ListView):
             cache.set("attempt_to_send_list_view", queryset, 60 * 15)
 
 
-class NewsletterIsDisabledView(UpdateView):
+class NewsletterIsDisabledView(LoginRequiredMixin, UpdateView):
     model = Newsletter
     form_class = NewsletterIsDisabledForm
     template_name = "mailings_newsletter/newsletter_is_disabled.html"

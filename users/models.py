@@ -3,7 +3,6 @@ from django.db import models
 
 
 class User(AbstractUser):
-
     username = models.CharField(
         max_length=100,
         verbose_name="Имя",
@@ -37,6 +36,7 @@ class User(AbstractUser):
     is_active = models.BooleanField(
         verbose_name="Аккаунт пользователя активен",
         help_text="Если хотите заблокировать его то уберить галочку",
+        default=True,
     )
 
     USERNAME_FIELD = "email"
